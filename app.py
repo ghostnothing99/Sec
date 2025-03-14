@@ -17,9 +17,19 @@ st.set_page_config(
 # Load model and scaler
 @st.cache_resource
 def load_model():
-    model = joblib.load('models/best_wine_quality_model.joblib')
-    scaler = joblib.load('models/scaler.joblib')
-    return model, scaler
+    try:
+        st.write("Loading model...")
+        model = joblib.load('models/best_wine_quality_model.joblib')
+        st.write("Model loaded successfully!")
+        
+        st.write("Loading scaler...")
+        scaler = joblib.load('models/scaler.joblib')
+        st.write("Scaler loaded successfully!")
+        
+        return model, scaler
+    except Exception as e:
+        st.error(f"Error loading model/scaler: {str(e)}")
+        raise e
 
 model, scaler = load_model()
 
@@ -121,5 +131,3 @@ elif page == "About":
     
     st.markdown("---")
     st.write("Built with ❤️ using Streamlit")
-
-# Run with: streamlit run app.py
